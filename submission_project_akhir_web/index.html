@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>.:Pemerintah Desa Konohagakure:.</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    header, footer {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    main {
+      display: flex;
+      flex-direction: row;
+      padding: 20px;
+    }
+
+    article {
+      flex: 3;
+      padding: 20px;
+      background-color: #f4f4f4;
+      margin-right: 20px;
+    }
+
+    aside {
+      flex: 1;
+      background-color: #e4e4e4;
+      padding: 20px;
+      text-align: center;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    footer {
+      margin-top: 20px;
+      padding: 10px;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+
+      article {
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Website Desa Konohagakure</h1>
+    <nav>
+      <a href="#">Home</a> | <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <h2>Tentang Desa Konohagakure</h2>
+      <p>Desa Konohagakure merupakan desa yang terletak di naruto universe.</p>
+      <p>Desa Konohagakure memiliki 10000 Penduduk yang terdiri dari kalangan kecil, menengah sampai keatas</p>
+    </article>
+
+    <aside>
+      <h2>My Photo</h2>
+      <img src="https://static.wikia.nocookie.net/shinobicraft/images/3/37/Konohagakure_symbol.png/revision/latest?cb=20140220160642" alt="A placeholder image">
+      <p>Nama : Uzumaki fufufafa (Hokage)</p>
+      <p>Umur : Uzumaki fufufafa (Hokage)</p>
+    </aside>
+    
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Simple Website by Wengdev Konohagakure | Submission Dicoding 2024</p>
+  </footer>
+
+  <script>
+    // JavaScript to manipulate DOM
+    document.querySelector("header").style.backgroundColor = "#0056b3";
+
+    // Example dropdown functionality
+    document.querySelector("nav").addEventListener("click", function() {
+      alert("Navigation clicked!");
+    });
+  </script>
+</body>
+
+</html>
