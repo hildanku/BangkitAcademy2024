@@ -83,11 +83,63 @@ const getBooksByIdHandler = (request, h) => {
       message: 'Buku tidak ditemukan',
     });
     response.code(404);
-    console.log(error);
+    // console.log(error);
     return response;
   }
 }
 
+const updateBooksHandler = (request, h) => {
+
+  const { bookId } = request.params;
+
+  const {
+    name,
+    year,
+    author,
+    summary,
+    publisher,
+    pageCount,
+    readPage,
+    reading,
+  } = request.payload;
+
+  try {
+    const bookIndex = books.findIndex((b) => b.id === bookId);
+
+    if (bookIndex === -1) {
+      return h
+        .response({
+          status: 'fail',
+          message: 'Gagal memperbarui buku. Id tidak ditemukan',
+        })
+        .code(404);
+    } else {
+      books[bookIndex] = {
+        ...books[bookIndex],
+        name,
+        year,
+        author,
+        summary,
+        publisher,
+        pageCount,
+        readPage,
+        reading,
+        updatedAt: new Date().toISOString(),
+      };
+      return h
+        .response({
+          status: 'success',
+          message: 'Buku berhasil diperbarui',
+        })
+        .code(200);
+    }
+  } catch(error) {
+    console.log(error);
+  }
+
+
+}
+
 module.exports = {
-  addBooksHandler, getBooksHandler, getBooksByIdHandler
+  addBooksHandler, getBooksHandler, getBooksByIdHandler, updateBooksHandler
 }
