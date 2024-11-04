@@ -77,6 +77,7 @@ const getBooksByIdHandler = (request, h) => {
         },
       };
     }
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
     const response = h.response({
       status: 'fail',
@@ -140,6 +141,31 @@ const updateBooksHandler = (request, h) => {
 
 }
 
+const deleteBooksHandler = (request, h) => {
+  const { bookId } = request.params;
+  const bookIndex = books.findIndex((b) => b.id === bookId);
+
+  if (bookIndex === -1) {
+    return h
+      .response({
+        status: 'fail',
+        message: 'Buku gagal dihapus. Id tidak ditemukan',
+      })
+      .code(404);
+  }
+
+  books.splice(bookIndex, 1);
+
+  return h
+    .response({
+      status: 'success',
+      message: 'Buku berhasil dihapus',
+    })
+    .code(200);
+
+}
+  
+
 module.exports = {
-  addBooksHandler, getBooksHandler, getBooksByIdHandler, updateBooksHandler
+  addBooksHandler, getBooksHandler, getBooksByIdHandler, updateBooksHandler, deleteBooksHandler,
 }
