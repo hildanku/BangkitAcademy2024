@@ -107,6 +107,24 @@ const updateBooksHandler = (request, h) => {
     reading,
   } = request.payload;
 
+  if (!name) {
+    return h
+      .response({
+        status: 'fail',
+        message: 'Gagal memperbarui buku. Mohon isi nama buku',
+      })
+      .code(400);
+  }
+
+  if (readPage > pageCount) {
+    return h
+      .response({
+        status: 'fail',
+        message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
+      })
+      .code(400);
+  }
+
     const bookIndex = books.findIndex((b) => b.id === bookId);
 
     if (bookIndex === -1) {
