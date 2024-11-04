@@ -10,17 +10,26 @@ const addBooksHandler = (request, h) => {
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
   const finished = pageCount === readPage;
-try {
+
+  if(!name) {
+    return h.response({
+      status: 'fail',
+      message: 'Gagal menambahkan buku. Mohon isi nama buku'
+    }).code(400);
+  }
+
+  if(readPage > pageCount) {
+    return h.response({
+      status: 'fail',
+      message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount'
+    }).code(400);
+  }
+
   const newBook = {
     id, name, year, author, summary, publisher, pageCount, readPage, reading, insertedAt, updatedAt, finished
   };
 
   books.push(newBook);
-} catch (error) {
-console.log(error);
-console.log("error bang")
-}
-
 
   return h.response({
     status: 'success',
@@ -47,7 +56,6 @@ const getBooksHandler = (request, h) => {
   .filter((book) => (reading === '0' || reading === '1' ? book.reading === (reading === '1') : true))
   .filter((book) => (finished === '0' || finished === '1' ? book.finished === (finished === '1') : true));
 
-  try {
     return h.response({
       status: 'success',
       data: {
@@ -58,16 +66,13 @@ const getBooksHandler = (request, h) => {
         })),
       }
     }).code(200);
-  } catch (error) {
-    console.log(error)
-  }
 }
 
 const getBooksByIdHandler = (request, h) => {
 
   const { bookId } = request.params;
 
-  try {
+
     const book = books.find((n) => n.id === bookId);
     if (book) {
       return {
@@ -77,8 +82,7 @@ const getBooksByIdHandler = (request, h) => {
         },
       };
     }
-  // eslint-disable-next-line no-unused-vars
-  } catch (error) {
+
     const response = h.response({
       status: 'fail',
       message: 'Buku tidak ditemukan',
@@ -86,7 +90,6 @@ const getBooksByIdHandler = (request, h) => {
     response.code(404);
     // console.log(error);
     return response;
-  }
 }
 
 const updateBooksHandler = (request, h) => {
@@ -104,7 +107,6 @@ const updateBooksHandler = (request, h) => {
     reading,
   } = request.payload;
 
-  try {
     const bookIndex = books.findIndex((b) => b.id === bookId);
 
     if (bookIndex === -1) {
@@ -134,10 +136,6 @@ const updateBooksHandler = (request, h) => {
         })
         .code(200);
     }
-  } catch(error) {
-    console.log(error);
-  }
-
 
 }
 
