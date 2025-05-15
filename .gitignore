@@ -7,3 +7,5 @@ notes-app
 go_web_server
 backend-gcloud-engineer
 bookshelf-api
+venv
+*.zip
