@@ -8,4 +8,5 @@ from . import views
  
 urlpatterns = [
     path("movies", views.movies),
+    path("movies/<int:id>", views.detail_movie),
 ]

@@ -9,8 +9,18 @@ def movies(request):
         response = "Agak Laen, Warkop DKI Reborn Part 1, Pengabdi Setan 2, Dilan, Sewu Dino"
         return HttpResponse(response)
     elif request.method == 'POST':
-        response = "Data movie berhasil ditambahkan."
+        body = request.body
+        data_decode = body.decode('UTF-8')
+        response = "Data movie {data_decode} berhasil ditambahkan."
         return HttpResponse(response)
-    # else
+    elif request.method == 'PUT':
+        content_type = request.headers['content-type']
+        return HttpResponse(content_type)
+    
+    # Mengembalikan respon jika metode HTTP tidak didukung
     response = f"Halaman tidak dapat diakses menggunakan {request.method} request"
     return HttpResponse(response)
+ 
+def detail_movie(request, id):
+    response = f"Menampilkan detail movie dengan id {id}"
+    return  HttpResponse(response)
