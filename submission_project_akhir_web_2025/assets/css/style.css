@@ -1,0 +1,153 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #2d2d2d;
+    text-align: center;
+    padding: 20px;
+}
+
+header h1 {
+    font-size: 2em;
+    margin-bottom: 5px;
+}
+
+.highlight {
+    color: #00ff87;
+}
+
+.subhead {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #999;
+}
+
+nav {
+    margin-top: 15px;
+}
+
+nav button {
+    background: none;
+    border: 1px solid #00ff87;
+    color: #00ff87;
+    padding: 10px 15px;
+    margin: 0 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+nav button:hover {
+    background-color: #00ff87;
+    color: #1e1e1e;
+}
+
+main {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+.profile {
+    flex: 1;
+    text-align: center;
+}
+
+.profile img {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+.content {
+    flex: 3;
+    background-color: #2d2d2d;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#about_me_container {
+    font-size: 1.2rem;
+    color: #00ff87;
+}
+
+.output p {
+    margin: 10px 0;
+}
+
+.popup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    background-color: #2d2d2d;
+    padding: 20px;
+    border: 1px solid #00ff87;
+    border-radius: 10px;
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+}
+
+.popup.hidden {
+    display: none;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form input,
+form textarea {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #1e1e1e;
+    border: 1px solid #00ff87;
+    color: white;
+}
+
+form button {
+    background-color: #00ff87;
+    color: #1e1e1e;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #2d2d2d;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+}
+
+
+@media (max-width: 480px) {
+    form {
+        width: 100%;
+    }
+
+    article,
+    aside {
+        padding: 10px;
+    }
+}

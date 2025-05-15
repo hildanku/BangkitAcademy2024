@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kirmanzzzz.sh | Portfolio</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>$ <span class="highlight">kirmanzzzz</span>.sh</h1>
+        <p class="subhead">Backend Developer | DevOps Enthusiast</p>
+        <nav>
+            <button id="home_button">_Home</button>
+            <button id="contact_button">_Contact</button>
+        </nav>
+    </header>
+
+    <main>
+        <aside class="profile">
+            <img src="assets/img/profile_img.png" alt="kirmanzzzz profile image">
+        </aside>
+
+        <section class="content">
+            <pre id="about_me_container" class="typed-cursor"></pre>
+            <div id="output" class="output"></div>
+        </section>
+    </main>
+
+    <div id="contact_form" class="popup hidden">
+        <h2>📫 Contact Me</h2>
+        <form id="form_contact">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 | Hildan K. Utomo - Dicoding x Bangkit</p>
+    </footer>
+
+    <script>
+        const typed = new Typed('#about_me_container', {
+            strings: ["$ ./about_me.sh"],
+            typeSpeed: 50,
+            showCursor: false,
+            onComplete: () => {
+                document.getElementById('output').innerHTML = `
+          <p>Hello! I'm a junior backend developer and 3rd year Computer Science student.</p>
+          <p>I focus on PHP and JavaScript, with growing interest in security and DevOps.</p>
+          <p>Learning how to build <strong>secure</strong> and <strong>scalable</strong> systems one step at a time!</p>
+        `;
+            }
+        });
+
+        document.getElementById('contact_button').addEventListener('click', () => {
+            document.getElementById('contact_form').classList.toggle('hidden');
+        });
+
+        document.getElementById('home_button').addEventListener('click', () => {
+            document.getElementById('contact_form').classList.add('hidden');
+        });
+    </script>
+</body>
+
+</html>
