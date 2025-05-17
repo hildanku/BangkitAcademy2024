@@ -43,3 +43,15 @@ print(type(x))
 
 # we can't convert like this
 # print(int("1k")) it will be error
+#
+
+# convert set, list tuple
+print(set([5, 6, 7]))
+print(tuple({1, 2, 3}))
+print(list('haiiii'))
+
+# convert dictionary
+print(dict(name='Hildan', age=20))
+
+# convert tuple to dict
+print(dict([(3, 26), (4, 44)]))
