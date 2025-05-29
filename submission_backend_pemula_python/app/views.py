@@ -16,9 +16,8 @@ class ProductList(APIView):
 
     def get(self, request):
         products = Product.objects.all()
-        # if products.is_empty():
-        #     #    return Response("Not Found", status=status.HTTP_404)
-        #     raise Http404
+        if products is None:
+            return Response({"message": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         serializers = ProductSerializer(
             products, many=True, context={'request': request})
         return Response({
@@ -31,10 +30,12 @@ class ProductDetail(APIView):
         try:
             return Product.objects.get(pk=pk)
         except Product.DoesNotExist:
-            raise Http404
+            return None
 
     def get(self, request, pk):
         product = self.get_object(pk)
+        if product is None:
+            return Response({"message": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         serializer = ProductSerializer(product)
         return Response(serializer.data)
 
@@ -50,5 +51,7 @@ class ProductDetail(APIView):
     
     def delete(self, request, pk):
         product = self.get_object(pk)
+        if product is None:
+            return Response({"message": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
