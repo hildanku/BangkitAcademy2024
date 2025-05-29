@@ -20,7 +20,7 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
             'stock',
             'is_available',
             'picture',
-            'is_deleted',
+            'is_delete',
             'sku',
             '_links'
         ]

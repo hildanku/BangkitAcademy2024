@@ -15,7 +15,7 @@ class ProductList(APIView):
         return Response(product.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
-        products = Product.objects.filter(is_deleted=False)
+        products = Product.objects.all()
         name = request.GET.get('name', None)
         location = request.GET.get('location', None)
 
@@ -33,7 +33,7 @@ class ProductList(APIView):
 class ProductDetail(APIView):
     def get_object(self, pk):
         try:
-            return Product.objects.get(pk=pk, is_deleted=False)
+            return Product.objects.get(pk=pk)
         except Product.DoesNotExist:
             raise Http404
 
@@ -56,6 +56,6 @@ class ProductDetail(APIView):
     
     def delete(self, request, pk):
         product = self.get_object(pk)
-        product.is_deleted = True
+        product.is_delete = True
         product.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
