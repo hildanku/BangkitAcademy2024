@@ -13,3 +13,5 @@ class Product(models.Model):
     stock = models.IntegerField(default=0)
     is_available = models.BooleanField(default=True)
     picture = models.CharField(max_length=255)
+    is_deleted = models.BooleanField(default=False)
+    sku = models.CharField(max_length=255, blank=True, null=True)
