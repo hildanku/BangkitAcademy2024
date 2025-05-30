@@ -1,5 +1,7 @@
 const { nanoid } = require('nanoid');
-const books = [];
+const books = require('./books');
+
+const createTimestamp = () => new Date().toISOString();
 
 const addBooksHandler = (request, h) => {
   const {
@@ -7,7 +9,7 @@ const addBooksHandler = (request, h) => {
   } = request.payload;
 
   const id = nanoid(16);
-  const insertedAt = new Date().toISOString();
+  const insertedAt = createTimestamp();
   const updatedAt = insertedAt;
   const finished = pageCount === readPage;
 
@@ -42,34 +44,32 @@ const addBooksHandler = (request, h) => {
 }
 
 const getBooksHandler = (request, h) => {
-
   const { name, reading, finished } = request.query;
 
-  let filteredBooks = [...books];
+  let filtered = books;
 
   if (name) {
-    const query = name.toLowerCase();
-    filteredBooks = filteredBooks.filter((book) => book.name.toLowerCase().includes(query));
+    filtered = filtered.filter((b) =>
+      b.name.toLowerCase().includes(name.toLowerCase()));
   }
 
-  filteredBooks = filteredBooks
-  .filter((book) => (reading === '0' || reading === '1' ? book.reading === (reading === '1') : true))
-  .filter((book) => (finished === '0' || finished === '1' ? book.finished === (finished === '1') : true));
+  if (reading === '0' || reading === '1') {
+    filtered = filtered.filter((b) => b.reading === (reading === '1'));
+  }
 
-    return h.response({
-      status: 'success',
-      data: {
-        books: filteredBooks.map(({ id, name, publisher }) => ({
-          id,
-          name,
-          publisher,
-        })),
-      }
-    }).code(200);
-}
+  if (finished === '0' || finished === '1') {
+    filtered = filtered.filter((b) => b.finished === (finished === '1'));
+  }
+
+  return h.response({
+    status: 'success',
+    data: {
+      books: filtered.map(({ id, name, publisher }) => ({ id, name, publisher })),
+    },
+  }).code(200);
+};
 
 const getBooksByIdHandler = (request, h) => {
-
   const { bookId } = request.params;
 
 
@@ -93,7 +93,6 @@ const getBooksByIdHandler = (request, h) => {
 }
 
 const updateBooksHandler = (request, h) => {
-
   const { bookId } = request.params;
 
   const {
@@ -178,10 +177,13 @@ const deleteBooksHandler = (request, h) => {
       message: 'Buku berhasil dihapus',
     })
     .code(200);
-
 }
   
 
 module.exports = {
-  addBooksHandler, getBooksHandler, getBooksByIdHandler, updateBooksHandler, deleteBooksHandler,
-}
+  addBooksHandler,
+  getBooksHandler,
+  getBooksByIdHandler,
+  updateBooksHandler,
+  deleteBooksHandler,
+};

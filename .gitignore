@@ -11,3 +11,4 @@ venv
 *.zip
 __pycache__
 submission_js_2025
+db.sqlite3
