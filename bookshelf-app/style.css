@@ -1,0 +1,31 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+header {
+    color: white;
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    background-color: lightblue;
+}
+
+main {
+    padding: 1rem;
+    background-color: blue;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.main-section {
+    flex: 1 1 45%;
+    min-width: 300px;
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
