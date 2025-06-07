@@ -2,8 +2,8 @@
 console.log('Hello, world!')
 
 const STORAGE_KEY = 'LIBRARY'
-let libraries = []
-
+let books = []
+let editBookId = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('bookForm');
@@ -23,28 +23,41 @@ function onFormSubmit(e) {
     const year = parseInt(document.getElementById('bookFormYear').value);
     const isComplete = document.getElementById('bookFormIsComplete').checked;
 
-    const id = +new Date();
 
-    books.push({ id, title, author, year, isComplete });
+    if (editBookId !== null) {
+        const bookIndex = books.findIndex(b => b.id === editBookId);
+        if (bookIndex !== -1) {
+            books[bookIndex] = { id: editBookId, title, author, year, isComplete };
+        }
+        editBookId = null;
+    } else {
+        const id = +new Date();
+        books.push({ id, title, author, year, isComplete });
+    }
+
     storeToStorage();
     renderBooks();
     document.getElementById('bookForm').reset();
+    document.getElementById('bookFormSubmit').innerHTML = 'Masukkan Buku ke rak <span>Belum selesai dibaca</span>';
 }
 
 function onSearchSubmit(e) {
     e.preventDefault();
     const query = document.getElementById('searchBookTitle').value.toLowerCase();
     renderBooks(query);
+    console.log('search')
 }
 
 function storeToStorage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+    console.log('store')
 }
 
 function loadFromStorage() {
     const stored = localStorage.getItem(STORAGE_KEY);
     books = stored ? JSON.parse(stored) : [];
     renderBooks();
+    console.log('load')
 }
 
 function renderBooks(query = '') {
@@ -84,17 +97,28 @@ function createBookElement(book) {
 
     const toggleButton = wrapper.querySelector('[data-testid="bookItemIsCompleteButton"]');
     const deleteButton = wrapper.querySelector('[data-testid="bookItemDeleteButton"]');
-
+    const editButton = wrapper.querySelector('[data-testid="bookItemEditButton"]');
+    editButton.addEventListener('click', () => {
+        document.getElementById('bookFormTitle').value = book.title;
+        document.getElementById('bookFormAuthor').value = book.author;
+        document.getElementById('bookFormYear').value = book.year;
+        document.getElementById('bookFormIsComplete').checked = book.isComplete;
+        editBookId = book.id;
+        document.getElementById('bookFormSubmit').innerHTML = 'Perbarui Buku';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
     toggleButton.addEventListener('click', () => {
         book.isComplete = !book.isComplete;
         storeToStorage();
         renderBooks();
+        console.log('change')
     });
 
     deleteButton.addEventListener('click', () => {
         books = books.filter(b => b.id !== book.id);
         storeToStorage();
         renderBooks();
+        console.log('delete')
     });
 
     return wrapper;
