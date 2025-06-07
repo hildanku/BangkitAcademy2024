@@ -9,9 +9,6 @@ header {
     background-color: #0077cc;
     color: white;
     padding: 1rem;
-}
-
-header h1 {
     text-align: start;
 }
 
@@ -27,12 +24,18 @@ main {
 section {
     background-color: white;
     padding: 1rem;
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 form {
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+form label {
+    font-weight: 600;
 }
 
 form input,
@@ -80,4 +83,51 @@ form button {
 
 form button:hover {
     background-color: #0056b3;
+}
+
+#incompleteBookList,
+#completeBookList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Data buku */
+[data-testid="bookItem"] h3 {
+    margin: 0 0 0 0.5rem;
+}
+
+[data-testid="bookItem"] p {
+    margin: 0.25rem 0;
+}
+
+
+[data-testid="bookItem"] button {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+[data-testid="bookItem"] button:hover {
+    background-color: #5a6268;
+}
+
+@media (min-width: 768px) {
+    main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .main-section,
+    .search-section,
+    #incompleteBookList,
+    #completeBookList {
+        flex: 1 1 45%;
+    }
 }
