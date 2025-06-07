@@ -15,6 +15,13 @@
 # result = x > y
 # print(result)
 
-x = True
-y = False
-print(x or y)
+x = 1
+y = 2
+
+x, y = y, x
+print('x =', x)
+print('y =', y)
+# print(dict([['name', 'Dicoding'], ['age', 17]]))
+# x = True
+# y = False
+# print(x or y)

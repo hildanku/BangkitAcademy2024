@@ -1,6 +1,3 @@
-// Do your work here...
-console.log('Hello, world!')
-
 const STORAGE_KEY = 'LIBRARY'
 let books = []
 let editBookId = null;
@@ -38,26 +35,22 @@ function onFormSubmit(e) {
     storeToStorage();
     renderBooks();
     document.getElementById('bookForm').reset();
-    document.getElementById('bookFormSubmit').innerHTML = 'Masukkan Buku ke rak <span>Belum selesai dibaca</span>';
 }
 
 function onSearchSubmit(e) {
     e.preventDefault();
     const query = document.getElementById('searchBookTitle').value.toLowerCase();
     renderBooks(query);
-    console.log('search')
 }
 
 function storeToStorage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
-    console.log('store')
 }
 
 function loadFromStorage() {
     const stored = localStorage.getItem(STORAGE_KEY);
     books = stored ? JSON.parse(stored) : [];
     renderBooks();
-    console.log('load')
 }
 
 function renderBooks(query = '') {
@@ -98,15 +91,7 @@ function createBookElement(book) {
     const toggleButton = wrapper.querySelector('[data-testid="bookItemIsCompleteButton"]');
     const deleteButton = wrapper.querySelector('[data-testid="bookItemDeleteButton"]');
     const editButton = wrapper.querySelector('[data-testid="bookItemEditButton"]');
-    editButton.addEventListener('click', () => {
-        document.getElementById('bookFormTitle').value = book.title;
-        document.getElementById('bookFormAuthor').value = book.author;
-        document.getElementById('bookFormYear').value = book.year;
-        document.getElementById('bookFormIsComplete').checked = book.isComplete;
-        editBookId = book.id;
-        document.getElementById('bookFormSubmit').innerHTML = 'Perbarui Buku';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+
     toggleButton.addEventListener('click', () => {
         book.isComplete = !book.isComplete;
         storeToStorage();
@@ -119,6 +104,16 @@ function createBookElement(book) {
         storeToStorage();
         renderBooks();
         console.log('delete')
+    });
+
+    editButton.addEventListener('click', () => {
+        document.getElementById('bookFormTitle').value = book.title;
+        document.getElementById('bookFormAuthor').value = book.author;
+        document.getElementById('bookFormYear').value = book.year;
+        document.getElementById('bookFormIsComplete').checked = book.isComplete;
+        editBookId = book.id;
+        document.getElementById('bookFormSubmit').innerHTML = 'Perbarui Buku';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     return wrapper;
