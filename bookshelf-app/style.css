@@ -54,3 +54,30 @@ form button {
     display: flex;
     gap: 0.5rem;
 }
+
+form input[type="text"],
+form input[type="number"] {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+}
+
+form input[type="checkbox"] {
+    transform: scale(1.5);
+}
+
+form button {
+    background-color: #007bff;
+    padding: 0.75rem;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
