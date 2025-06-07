@@ -41,3 +41,16 @@ form button {
     border-radius: 4px;
     font-size: 1rem;
 }
+
+[data-testid="bookItem"] {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+[data-testid="bookItem"] div {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+}
