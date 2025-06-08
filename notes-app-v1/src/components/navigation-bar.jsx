@@ -17,6 +17,7 @@ function NavigationBar() {
             </button>
             <nav className={`navigation-bar ${isOpen ? 'open' : ''}`}>
                 <Link to="/">Daftar Catatan</Link>
+                <Link to="/archives">Arsip</Link>
                 <Link to="/notes/new">Tambah</Link>
             </nav>
         </>
