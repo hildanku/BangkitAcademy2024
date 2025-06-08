@@ -95,6 +95,15 @@ main {
     margin: 4px 0;
 }
 
+.note-item__title a {
+    color: var(--background);
+    text-decoration: none;
+}
+
+.note-item__title a:hover {
+    text-decoration: underline;
+}
+
 .note-item__createdAt {
     color: var(--on-background-grey);
     font-size: 14px;
@@ -291,6 +300,44 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.container {
+    padding: 1rem;
+}
+
+.note-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.note-date {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: 12px;
+
+}
+
+.delete-button {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 16px;
+}
+
+.delete-button:hover {
+    background-color: #d62828;
+}
+
+.delete-button:active {
+    background-color: #b22222;
 }
 
 @media screen and (min-width: 650px) {

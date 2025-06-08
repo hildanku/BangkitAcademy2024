@@ -1,6 +1,5 @@
-import React from "react"
-import NavigationBar from "./navigation-bar"
-import { Link } from "react-router-dom"
+import React from 'react'
+import NavigationBar from './navigation-bar'
 
 function Header() {
     return (
