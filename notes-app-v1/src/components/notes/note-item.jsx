@@ -6,7 +6,7 @@ function NoteItem({ id, title, body, createdAt }) {
     return (
         <div className="note-item">
             <h3 className="note-item__title">
-                <Link to={`/notes/${id}`}>s{title}</Link>
+                <Link to={`/notes/${id}`}>{title}</Link>
             </h3>
             <small className="note-item__createdAt">
                 {new Date(createdAt).toLocaleString()}
