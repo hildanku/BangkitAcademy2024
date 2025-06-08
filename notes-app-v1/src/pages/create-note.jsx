@@ -12,7 +12,7 @@ export default function AddNotePage() {
     }
 
     return (
-        <div>
+        <div className="container">
             <h2>Tambah Catatan</h2>
             <NoteForm onSubmit={handleAddNote} />
         </div>
