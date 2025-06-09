@@ -32,7 +32,7 @@ function NoteForm({ onSubmit }) {
                     required
                 />
                 <div className="note-action">
-                    <button type="submit" className="note-submit">✔ Simpan</button>
+                    <button type="submit" className="note-submit">Simpan</button>
                 </div>
             </form>
         </div>

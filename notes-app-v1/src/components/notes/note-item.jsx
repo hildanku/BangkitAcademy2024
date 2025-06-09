@@ -12,6 +12,9 @@ function NoteItem({ id, title, body, createdAt }) {
                 {new Date(createdAt).toLocaleString()}
             </small>
             <p className="note-item__body">{body}</p>
+            <div className="detail-page__action">
+                {/* WIP Button action */}
+            </div>
         </div>
     )
 }

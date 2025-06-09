@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getNote, deleteNote } from '../utils/local-data'
+import { getNote, deleteNote, unarchiveNote, archiveNote } from '../utils/local-data'
 
 export default function DetailPage() {
     const { id } = useParams()
@@ -8,11 +8,20 @@ export default function DetailPage() {
     const note = getNote(id)
 
     if (!note) {
-        return <p>Catatan tidak ditemukan</p>;
+        return <p>Catatan tidak ditemukan</p>
     }
 
     const handleDelete = () => {
         deleteNote(id)
+        navigate('/')
+    }
+
+    const handleArchiveToggle = () => {
+        if (note.archived) {
+            unarchiveNote(note.id)
+        } else {
+            archiveNote(note.id)
+        }
         navigate('/')
     }
 
@@ -24,7 +33,13 @@ export default function DetailPage() {
             </div>
             <br />
             <p>{note.body}</p>
-            <button className="delete-button" onClick={handleDelete}>Hapus</button>
+            <div className="detail-page__action">
+                <button className="delete-button" onClick={handleDelete}>Hapus</button>
+                <button className="archive-button" onClick={handleArchiveToggle}>
+                    {note.archived ? 'Batal Arsip' : 'Arsipkan'}
+                </button>
+
+            </div>
         </div>
     )
 }

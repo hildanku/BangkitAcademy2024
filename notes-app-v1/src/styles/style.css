@@ -321,7 +321,7 @@ main {
 }
 
 .delete-button {
-    background-color: #e63946;
+    background-color: #991b1b;
     color: white;
     border: none;
     border-radius: 3px;
@@ -333,11 +333,7 @@ main {
 }
 
 .delete-button:hover {
-    background-color: #d62828;
-}
-
-.delete-button:active {
-    background-color: #b22222;
+    background-color: #b91c1c;
 }
 
 .navigation-bar {
@@ -484,6 +480,22 @@ main {
 .note-input:valid:not(:placeholder-shown),
 .note-textarea:valid:not(:placeholder-shown) {
     border-color: #10b981;
+}
+
+.archive-button {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 16px;
+}
+
+.archive-button:hover {
+    background-color: #1e293b;
 }
 
 @media screen and (max-width: 650px) {
