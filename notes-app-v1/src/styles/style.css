@@ -205,11 +205,11 @@ main {
     margin: 16px 0;
     font-family: 'Inter', sans-serif;
     background-color: transparent;
-    border: 1px solid var(--on-background);
+    border: 1px solid var(--background);
     border-radius: 4px;
     padding: 8px;
     width: 100%;
-    color: var(--on-background);
+    color: var(--surface);
 }
 
 .search-bar input::placeholder {
@@ -324,7 +324,7 @@ main {
     background-color: #991b1b;
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 6px;
     padding: 0.5rem 1rem;
     font-size: 14px;
     cursor: pointer;
@@ -497,6 +497,15 @@ main {
 .archive-button:hover {
     background-color: #1e293b;
 }
+
+.toggle-theme {
+    font-size: 36px;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--on-background);
+}
+
 
 @media screen and (max-width: 650px) {
     .notes-list {
