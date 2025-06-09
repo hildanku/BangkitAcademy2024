@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getNote, deleteNote, unarchiveNote, archiveNote } from '../utils/local-data'
+import parser from 'html-react-parser'
 
 export default function DetailPage() {
     const { id } = useParams()
@@ -32,7 +33,9 @@ export default function DetailPage() {
                 <p className="note-date">{new Date(note.createdAt).toLocaleString()}</p>
             </div>
             <br />
-            <p>{note.body}</p>
+            <div className="detail-page__body">
+                {parser(note.body)}
+            </div>
             <div className="detail-page__action">
                 <button className="delete-button" onClick={handleDelete}>Hapus</button>
                 <button className="archive-button" onClick={handleArchiveToggle}>

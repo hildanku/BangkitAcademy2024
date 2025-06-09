@@ -5,6 +5,10 @@ function NoteForm({ onSubmit }) {
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
 
+    const handleBodyInput = (e) => {
+        setBody(e.target.innerHTML)
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
         onSubmit({ title, body })
@@ -24,13 +28,24 @@ function NoteForm({ onSubmit }) {
                     onChange={(e) => setTitle(e.target.value)}
                     required
                 />
-                <textarea
+                <div
                     className="note-textarea"
                     placeholder="Tulis isi catatan di sini..."
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
+                    data-placeholder="Deskripsi...."
+                    contentEditable
+                    onInput={handleBodyInput}
+                    suppressContentEditableWarning={true}
+                    style={{
+                        border: '1px solid #ccc',
+                        minHeight: '150px',
+                        padding: '8px',
+                        marginTop: '12px',
+                    }}
                     required
                 />
+                <p style={{ fontSize: '12px', color: '#999' }}>
+                    * Gunakan <strong>Ctrl+B</strong> untuk bold, <em>Ctrl+I</em> untuk italic, Enter untuk baris baru.
+                </p>
                 <div className="note-action">
                     <button type="submit" className="note-submit">Simpan</button>
                 </div>
