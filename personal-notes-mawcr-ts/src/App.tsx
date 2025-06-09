@@ -1,35 +1,64 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './index.css'
+import Header from './components/ui/header'
+import SearchBar from './components/ui/search-bar'
+import NoteInput from './components/notes/note-input'
+import NoteList from './components/notes/note-list'
+import type { Note } from './types/notes'
+import Footer from './components/ui/footer'
+import { getFilteredNotes } from './lib/utils'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+    const [notes, setNotes] = useState<Note[]>([])
+    const [search, setSearch] = useState('')
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const handleAddNote = (title: string, body: string) => {
+        const newNote: Note = {
+            id: Date.now(),
+            title,
+            body,
+            archived: false,
+            createdAt: new Date().toISOString(),
+        }
+        setNotes([newNote, ...notes])
+    }
+
+    const handleDeleteNote = (id: number) => {
+        setNotes(notes.filter((note) => note.id !== id))
+    }
+
+    const handleToggleArchive = (id: number) => {
+        setNotes(
+            notes.map((note) =>
+                note.id === id ? { ...note, archived: !note.archived } : note
+            )
+        )
+    }
+
+    const { active: activeNotes, archived: archivedNotes } = getFilteredNotes(notes, search)
+
+    return (
+        <div className="max-w-2xl mx-auto p-4">
+            <Header />
+            <SearchBar search={search} setSearch={setSearch} />
+            <NoteInput onAdd={handleAddNote} />
+            <h2 className="font-bold text-lg mb-2">Catatan Aktif</h2>
+            <NoteList
+                notes={activeNotes}
+                onDelete={handleDeleteNote}
+                onToggleArchive={handleToggleArchive}
+                isArchivedList={false}
+            />
+            <h2 className="font-bold text-lg mt-4 mb-2">Arsip</h2>
+            <NoteList
+                notes={archivedNotes}
+                onDelete={handleDeleteNote}
+                onToggleArchive={handleToggleArchive}
+                isArchivedList={true}
+            />
+            <Footer />
+        </div>
+    )
 }
 
 export default App
