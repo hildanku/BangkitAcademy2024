@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import NoteList from '../components/notes/note-list'
+import { getArchivedNotes, unarchiveNote } from '../utils/local-data'
 
 function ArchivePage() {
     const [notes, setNotes] = useState([])
@@ -12,6 +13,11 @@ function ArchivePage() {
         setNotes(getArchivedNotes())
     }
 
+    const handleUnarchive = (id) => {
+        unarchiveNote(id)
+        setNotes(getArchivedNotes())
+    }
+
     return (
         <main>
             <h1>ARsip</h1>
@@ -21,7 +27,7 @@ function ArchivePage() {
                 </div>
             ) : (
                 <div className="notes-list">
-                    <NoteList notes={notes} onDelete={handleDelete} />
+                    <NoteList notes={notes} onDelete={handleDelete} onToggleArchive={handleUnarchive} />
                 </div>
             )
             }
