@@ -16,7 +16,7 @@ const NoteList: React.FC<NoteListProps> = ({
     isArchivedList,
 }) => {
     if (notes.length === 0) {
-        return <p>{isArchivedList ? "Tidak ada catatan arsip." : "Tidak ada catatan aktif."}</p>
+        return <p>{isArchivedList ? "Tidak ada catatan arsip." : "Tidak ada catatan."}</p>
     }
 
     return (
