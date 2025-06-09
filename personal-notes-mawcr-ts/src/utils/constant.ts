@@ -1,0 +1,2 @@
+export const MAX_NOTE_TITLE_LENGTH = 50
+export const MAX_NOTE_BODY_LENGTH = 5000
