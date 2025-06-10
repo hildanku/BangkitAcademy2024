@@ -23,6 +23,7 @@ import {
 import { Alert, AlertDescription } from '../components/ui/alert'
 import { AlertCircle, CheckCircle } from 'lucide-react'
 import { registerSchema } from '../lib/zod'
+import { useState } from 'react'
 
 type RegisterFormValues = z.infer<typeof registerSchema>
 
@@ -31,7 +32,9 @@ export const Route = createFileRoute('/register')({
 })
 
 function RegisterPage() {
-  const navigate = useNavigate()
+    const navigate = useNavigate()
+    const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -52,25 +55,37 @@ function RegisterPage() {
       })
 
       if (error) {
-        form.setError('root', {
-          message: 'Registrasi gagal. Email mungkin sudah digunakan.',
+        // form.setError('root', {
+        //   message: 'Registrasi gagal. Email mungkin sudah digunakan.',
+        // })
+        setStatusMessage({
+            type: 'error',
+            message: 'Registrasi gagal. Email mungkin sudah digunakan.',
         })
       } else {
-        form.setError('root', {
-          message: 'Registrasi berhasil! Silakan login.',
-        })
+        // form.setError('root', {
+        //   message: 'Registrasi berhasil! Silakan login.',
+        // })
+        setStatusMessage({
+            type: 'success',
+            message: 'Registrasi berhasil! Silakan login.',
+          })
         form.reset()
         setTimeout(() => navigate({ to: '/login' }), 5000) // after 5sec
       }
     } catch (error) {
-      form.setError('root', {
+    //   form.setError('root', {
+    //     message: 'Terjadi kesalahan. Silakan coba lagi.',
+    //   })
+    setStatusMessage({
+        type: 'error',
         message: 'Terjadi kesalahan. Silakan coba lagi.',
       })
     }
   }
 
-  const isSuccess = form.formState.errors.root?.message?.includes('berhasil')
-  const showAlert = form.formState.errors.root?.message
+//   const isSuccess = form.formState.errors.root?.message?.includes('berhasil')
+//   const showAlert = form.formState.errors.root?.message
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
@@ -82,7 +97,7 @@ function RegisterPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {showAlert && (
+          {/* {showAlert && (
             <Alert variant={isSuccess ? "default" : "destructive"} className="mb-4">
               {isSuccess ? (
                 <CheckCircle className="h-4 w-4" />
@@ -93,8 +108,21 @@ function RegisterPage() {
                 {form.formState.errors.root!.message}
               </AlertDescription>
             </Alert>
-          )}
-          
+          )} */}
+
+            {statusMessage && (
+                <Alert variant={statusMessage.type === 'success' ? 'default' : 'destructive'} className="mb-4">
+                {statusMessage.type === 'success' ? (
+                    <CheckCircle className="h-4 w-4" />
+                ) : (
+                    <AlertCircle className="h-4 w-4" />
+                )}
+                <AlertDescription>
+                    {statusMessage.message}
+                </AlertDescription>
+                </Alert>
+            )}
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
