@@ -1,9 +1,8 @@
-
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { useAuth } from '../hooks/use-auth'
+import { register as apiRegister } from '../lib/network'
 import { Button } from '../components/ui/button'
 import {
   Card,
@@ -22,36 +21,46 @@ import {
   FormMessage,
 } from '../components/ui/form'
 import { Alert, AlertDescription } from '../components/ui/alert'
-import { AlertCircle } from 'lucide-react'
-import { loginSchema } from '../lib/zod'
+import { AlertCircle, CheckCircle } from 'lucide-react'
+import { registerSchema } from '../lib/zod'
 
-type LoginFormValues = z.infer<typeof loginSchema>
+type RegisterFormValues = z.infer<typeof registerSchema>
 
-export const Route = createFileRoute('/login')({
-  component: LoginPage,
+export const Route = createFileRoute('/register')({
+  component: RegisterPage,
 })
 
-function LoginPage() {
-  const { login } = useAuth()
+function RegisterPage() {
   const navigate = useNavigate()
 
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   })
 
-  const onSubmit = async (values: LoginFormValues) => {
+  const onSubmit = async (values: RegisterFormValues) => {
     try {
-      const success = await login(values.email, values.password)
-      if (success) {
-        navigate({ to: '/' })
+      const { error } = await apiRegister({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })
+
+      if (error) {
+        form.setError('root', {
+          message: 'Registrasi gagal. Email mungkin sudah digunakan.',
+        })
       } else {
         form.setError('root', {
-          message: 'Email atau password salah.',
+          message: 'Registrasi berhasil! Silakan login.',
         })
+        form.reset()
+        setTimeout(() => navigate({ to: '/login' }), 5000) // after 5sec
       }
     } catch (error) {
       form.setError('root', {
@@ -60,27 +69,52 @@ function LoginPage() {
     }
   }
 
+  const isSuccess = form.formState.errors.root?.message?.includes('berhasil')
+  const showAlert = form.formState.errors.root?.message
+
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Login</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Register</CardTitle>
           <CardDescription className="text-center">
-            Masukkan email dan password untuk masuk
+            Buat akun baru untuk mulai menggunakan aplikasi
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {form.formState.errors.root && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertCircle className="h-4 w-4" />
+          {showAlert && (
+            <Alert variant={isSuccess ? "default" : "destructive"} className="mb-4">
+              {isSuccess ? (
+                <CheckCircle className="h-4 w-4" />
+              ) : (
+                <AlertCircle className="h-4 w-4" />
+              )}
               <AlertDescription>
-                {form.formState.errors.root.message}
+                {form.formState.errors.root!.message}
               </AlertDescription>
             </Alert>
           )}
           
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nama</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Masukkan nama lengkap"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
               <FormField
                 control={form.control}
                 name="email"
@@ -117,12 +151,30 @@ function LoginPage() {
                 )}
               />
               
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Konfirmasi Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Ulangi password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
               <Button 
                 type="submit" 
                 className="w-full"
                 disabled={form.formState.isSubmitting}
               >
-                {form.formState.isSubmitting ? 'Sedang login...' : 'Login'}
+                {form.formState.isSubmitting ? 'Sedang mendaftar...' : 'Register'}
               </Button>
             </form>
           </Form>
