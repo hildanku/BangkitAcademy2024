@@ -24,6 +24,7 @@ import { Alert, AlertDescription } from '../components/ui/alert'
 import { AlertCircle, CheckCircle } from 'lucide-react'
 import { registerSchema } from '../lib/zod'
 import { useState } from 'react'
+import { useLanguage } from '../hooks/use-language'
 
 type RegisterFormValues = z.infer<typeof registerSchema>
 
@@ -34,7 +35,7 @@ export const Route = createFileRoute('/register')({
 function RegisterPage() {
     const navigate = useNavigate()
     const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
-
+    const { t } = useLanguage()
 
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
@@ -68,9 +69,6 @@ function RegisterPage() {
                 setTimeout(() => navigate({ to: '/login' }), 5000) // after 5sec
             }
         } catch (error) {
-            //   form.setError('root', {
-            //     message: 'Terjadi kesalahan. Silakan coba lagi.',
-            //   })
             setStatusMessage({
                 type: 'error',
                 message: 'Terjadi kesalahan. Silakan coba lagi.',
@@ -78,26 +76,30 @@ function RegisterPage() {
         }
     }
 
+
     return (
         <div className="flex min-h-screen items-center justify-center px-4">
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold text-center">Register</CardTitle>
+                    <CardTitle className="text-2xl font-bold text-center">
+                        {t('register_title')}
+                    </CardTitle>
                     <CardDescription className="text-center">
-                        Buat akun baru untuk mulai menggunakan aplikasi
+                        {t('register_description')}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     {statusMessage && (
-                        <Alert variant={statusMessage.type === 'success' ? 'default' : 'destructive'} className="mb-4">
+                        <Alert
+                            variant={statusMessage.type === 'success' ? 'default' : 'destructive'}
+                            className="mb-4"
+                        >
                             {statusMessage.type === 'success' ? (
                                 <CheckCircle className="h-4 w-4" />
                             ) : (
                                 <AlertCircle className="h-4 w-4" />
                             )}
-                            <AlertDescription>
-                                {statusMessage.message}
-                            </AlertDescription>
+                            <AlertDescription>{statusMessage.message}</AlertDescription>
                         </Alert>
                     )}
 
@@ -108,11 +110,11 @@ function RegisterPage() {
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Nama</FormLabel>
+                                        <FormLabel>{t('register_name_label')}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="text"
-                                                placeholder="Masukkan nama lengkap"
+                                                placeholder={t('register_name_placeholder')}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -126,11 +128,11 @@ function RegisterPage() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>{t('register_email_label')}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="email"
-                                                placeholder="nama@example.com"
+                                                placeholder={t('register_email_placeholder')}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -144,11 +146,11 @@ function RegisterPage() {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <FormLabel>{t('register_password_label')}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="password"
-                                                placeholder="Masukkan password"
+                                                placeholder={t('register_password_placeholder')}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -162,11 +164,11 @@ function RegisterPage() {
                                 name="confirmPassword"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Konfirmasi Password</FormLabel>
+                                        <FormLabel>{t('register_confirm_password_label')}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="password"
-                                                placeholder="Ulangi password"
+                                                placeholder={t('register_confirm_password_placeholder')}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -180,7 +182,9 @@ function RegisterPage() {
                                 className="w-full"
                                 disabled={form.formState.isSubmitting}
                             >
-                                {form.formState.isSubmitting ? 'Sedang mendaftar...' : 'Register'}
+                                {form.formState.isSubmitting
+                                    ? t('registering_button')
+                                    : t('register_button')}
                             </Button>
                         </form>
                     </Form>

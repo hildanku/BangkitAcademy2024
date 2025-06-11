@@ -24,6 +24,8 @@ import {
 import { Alert, AlertDescription } from '../components/ui/alert'
 import { AlertCircle } from 'lucide-react'
 import { loginSchema } from '../lib/zod'
+import { useLanguage } from '../hooks/use-language'
+import { Link } from '@tanstack/react-router'
 
 type LoginFormValues = z.infer<typeof loginSchema>
 
@@ -34,6 +36,7 @@ export const Route = createFileRoute('/login')({
 function LoginPage() {
     const { login } = useAuth()
     const navigate = useNavigate()
+    const { t } = useLanguage()
 
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
@@ -60,13 +63,16 @@ function LoginPage() {
         }
     }
 
+
     return (
         <div className="flex min-h-screen items-center justify-center px-4">
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold text-center">Login</CardTitle>
+                    <CardTitle className="text-2xl font-bold text-center">
+                        {t('login_title')}
+                    </CardTitle>
                     <CardDescription className="text-center">
-                        Masukkan email dan password untuk masuk
+                        {t('login_description')}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -86,11 +92,11 @@ function LoginPage() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>{t('login_email_label')}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="email"
-                                                placeholder="nama@example.com"
+                                                placeholder={t('login_email_placeholder')}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -104,11 +110,11 @@ function LoginPage() {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <FormLabel>{t('login_password_label')}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="password"
-                                                placeholder="Masukkan password"
+                                                placeholder={t('login_password_placeholder')}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -122,10 +128,21 @@ function LoginPage() {
                                 className="w-full"
                                 disabled={form.formState.isSubmitting}
                             >
-                                {form.formState.isSubmitting ? 'Sedang login...' : 'Login'}
+                                {form.formState.isSubmitting
+                                    ? t('logging_in_button')
+                                    : t('login_button')}
                             </Button>
                         </form>
                     </Form>
+                    <div className="mt-4 text-center text-sm text-muted-foreground">
+                        {t('dont_have_account')}{" "}
+                        <Link
+                            to="/register"
+                            className="font-medium text-primary hover:underline"
+                        >
+                            {t('register_button')}
+                        </Link>
+                    </div>
                 </CardContent>
             </Card>
         </div>

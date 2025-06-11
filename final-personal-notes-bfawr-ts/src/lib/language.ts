@@ -155,4 +155,4 @@ export const strings = {
         registering_button: 'Registering...',
         dont_have_account: 'Don\'t have an account?',
     },
-};
+}

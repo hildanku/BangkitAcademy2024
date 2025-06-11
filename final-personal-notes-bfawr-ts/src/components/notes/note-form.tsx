@@ -25,11 +25,13 @@ import { Alert, AlertDescription } from '../ui/alert'
 import { Save, AlertCircle, CheckCircle } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { createNoteSchema } from '../../lib/zod'
+import { useLanguage } from '../../hooks/use-language'
 
 export type CreateNoteFormValues = z.infer<typeof createNoteSchema>
 
 export function NoteForm() {
     const navigate = useNavigate()
+    const { t } = useLanguage()
 
     const form = useForm<CreateNoteFormValues>({
         resolver: zodResolver(createNoteSchema),
@@ -69,10 +71,8 @@ export function NoteForm() {
         <>
             <Card>
                 <CardHeader>
-                    <CardTitle>Catatan Baru</CardTitle>
-                    <CardDescription>
-                        Buat catatan baru dengan judul dan isi yang menarik
-                    </CardDescription>
+                    <CardTitle>{t('new_note_title')}</CardTitle>
+                    <CardDescription>{t('new_note_description')}</CardDescription>
                 </CardHeader>
 
                 <CardContent>
@@ -83,7 +83,7 @@ export function NoteForm() {
                             ) : (
                                 <AlertCircle className="h-4 w-4" />
                             )}
-                            <AlertDescription>{form.formState.errors.root!.message}</AlertDescription>
+                            <AlertDescription>{showAlert}</AlertDescription>
                         </Alert>
                     )}
 
@@ -94,17 +94,17 @@ export function NoteForm() {
                                 name="title"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Judul Catatan</FormLabel>
+                                        <FormLabel>{t('form_title_label')}</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="Masukkan judul catatan..."
+                                                placeholder={t('form_title_placeholder')}
                                                 className="text-lg font-medium"
                                                 {...field}
                                             />
                                         </FormControl>
                                         <FormMessage />
                                         <div className="text-sm text-gray-500">
-                                            {field.value.length}/100 karakter
+                                            {field.value.length}/100 {t('character_count')}
                                         </div>
                                     </FormItem>
                                 )}
@@ -115,17 +115,17 @@ export function NoteForm() {
                                 name="body"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Isi Catatan</FormLabel>
+                                        <FormLabel>{t('form_body_label')}</FormLabel>
                                         <FormControl>
                                             <Textarea
-                                                placeholder="Tulis isi catatan di sini..."
+                                                placeholder={t('form_body_placeholder')}
                                                 className="min-h-[300px] resize-y"
                                                 {...field}
                                             />
                                         </FormControl>
                                         <FormMessage />
                                         <div className="text-sm text-gray-500">
-                                            {field.value.length}/5000 karakter
+                                            {field.value.length}/5000 {t('character_count')}
                                         </div>
                                     </FormItem>
                                 )}
@@ -138,11 +138,11 @@ export function NoteForm() {
                                     disabled={form.formState.isSubmitting}
                                 >
                                     <Save className="h-4 w-4 mr-2" />
-                                    {form.formState.isSubmitting ? 'Menyimpan...' : 'Simpan Catatan'}
+                                    {form.formState.isSubmitting ? t('saving_button') : t('save_button')}
                                 </Button>
 
                                 <Button type="button" variant="outline" className="sm:order-1" asChild>
-                                    <Link to="/notes">Batal</Link>
+                                    <Link to="/notes">{t('cancel_button')}</Link>
                                 </Button>
                             </div>
                         </form>
@@ -152,19 +152,19 @@ export function NoteForm() {
 
             <Card className="mt-8">
                 <CardHeader>
-                    <CardTitle>Preview</CardTitle>
-                    <CardDescription>Pratinjau catatan yang akan dibuat</CardDescription>
+                    <CardTitle>{t('preview_title')}</CardTitle>
+                    <CardDescription>{t('preview_description')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
                         <div>
                             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                                {form.watch('title') || 'Judul catatan akan muncul di sini'}
+                                {form.watch('title') || t('preview_default_title')}
                             </h3>
                         </div>
                         <div className="prose prose-sm max-w-none dark:prose-invert">
                             <div className="whitespace-pre-wrap text-gray-600 dark:text-gray-300">
-                                {form.watch('body') || 'Isi catatan akan muncul di sini...'}
+                                {form.watch('body') || t('preview_default_body')}
                             </div>
                         </div>
                     </div>

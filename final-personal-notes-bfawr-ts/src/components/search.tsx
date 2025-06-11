@@ -1,6 +1,6 @@
-import { Input } from "../components/ui/input"
-import { Search as SearchIcon } from "lucide-react"
-import { useLanguage } from "../hooks/use-language"
+import { Input } from '../components/ui/input'
+import { Search as SearchIcon } from 'lucide-react'
+import { useLanguage } from '../hooks/use-language'
 
 interface SearchProps {
     value: string

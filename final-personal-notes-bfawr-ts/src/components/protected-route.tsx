@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/use-auth'
 import { Card, CardContent } from '../components/ui/card'
 import { Loader2 } from 'lucide-react'
 import { getAccessToken } from '../lib/network'
+import { useLanguage } from '../hooks/use-language'
 
 interface ProtectedRouteProps {
     children: ReactNode
@@ -12,6 +13,7 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
     const { isAuthenticated, user } = useAuth()
     const [isInitialLoading, setIsInitialLoading] = useState(true)
+    const { t } = useLanguage()
 
     useEffect(() => {
         const token = getAccessToken()
@@ -31,7 +33,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
                 <Card className="w-full max-w-md">
                     <CardContent className="flex items-center justify-center p-6">
                         <Loader2 className="h-6 w-6 animate-spin mr-2" />
-                        <span>Memuat...</span>
+                        <span>{t("loading")}</span>
                     </CardContent>
                 </Card>
             </div>

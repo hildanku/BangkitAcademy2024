@@ -26,6 +26,7 @@ import {
 } from '../../components/ui/dropdown-menu'
 import { Archive, ArchiveRestore, Eye, MoreVertical, Trash2 } from "lucide-react"
 import { Link } from "@tanstack/react-router"
+import { useLanguage } from '../../hooks/use-language'
 
 interface Note {
     id: string
@@ -45,20 +46,23 @@ interface NotesListProps {
 }
 
 export function NotesList({ notes, onDelete, onArchive, onUnarchive, isArchived, formatDate }: NotesListProps) {
+
+    const { t } = useLanguage()
+
     if (notes.length === 0) {
         return (
             <Card>
                 <CardContent className="flex flex-col items-center justify-center p-12">
                     <Archive className="h-12 w-12 text-gray-400 mb-4" />
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                        {isArchived ? 'Tidak ada catatan yang diarsipkan' : 'Belum ada catatan'}
+                        {isArchived ? t('not_found_archive_notes') : t('not_found_active_notes')}
                     </h3>
                     <p className="text-gray-500 text-center">
-                        {isArchived ? 'Catatan yang diarsipkan akan muncul di sini' : 'Mulai dengan membuat catatan pertama Anda'}
+                        {isArchived ? t('archive_notes_descriptions') : t('active_notes_descriptions')}
                     </p>
                 </CardContent>
             </Card>
-        )
+        );
     }
 
     return (
@@ -79,18 +83,18 @@ export function NotesList({ notes, onDelete, onArchive, onUnarchive, isArchived,
                                     <DropdownMenuItem asChild>
                                         <Link to={`/notes/${note.id}`}>
                                             <Eye className="h-4 w-4 mr-2" />
-                                            Lihat Detail
+                                            {t('detail_dropdown_button')}
                                         </Link>
                                     </DropdownMenuItem>
                                     {isArchived ? (
                                         <DropdownMenuItem onClick={() => onUnarchive(note.id)}>
                                             <ArchiveRestore className="h-4 w-4 mr-2" />
-                                            Batalkan Arsip
+                                            {t('cancel_dropdown_button')}
                                         </DropdownMenuItem>
                                     ) : (
                                         <DropdownMenuItem onClick={() => onArchive(note.id)}>
                                             <Archive className="h-4 w-4 mr-2" />
-                                            Arsipkan
+                                            {t('archive_dropdown_button')}
                                         </DropdownMenuItem>
                                     )}
                                     <AlertDialog>
@@ -100,23 +104,23 @@ export function NotesList({ notes, onDelete, onArchive, onUnarchive, isArchived,
                                                 onSelect={(e) => e.preventDefault()}
                                             >
                                                 <Trash2 className="h-4 w-4 mr-2" />
-                                                Hapus
+                                                {t('delete_dropdown_button')}
                                             </DropdownMenuItem>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
-                                                <AlertDialogTitle>Hapus Catatan</AlertDialogTitle>
+                                                <AlertDialogTitle>{t('delete_note_title')}</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    Apakah Anda yakin ingin menghapus catatan "{note.title}"?
+                                                    {t('delete_note_description').replace('{title}', note.title)}
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
-                                                <AlertDialogCancel>Batal</AlertDialogCancel>
+                                                <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
                                                 <AlertDialogAction
                                                     onClick={() => onDelete(note.id)}
                                                     className="bg-red-600 hover:bg-red-700"
                                                 >
-                                                    Hapus
+                                                    {t('delete')}
                                                 </AlertDialogAction>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
@@ -126,7 +130,7 @@ export function NotesList({ notes, onDelete, onArchive, onUnarchive, isArchived,
                         </div>
                         <CardDescription className="flex items-center justify-between">
                             <span>{formatDate(note.createdAt)}</span>
-                            {isArchived && <Badge variant="secondary">Arsip</Badge>}
+                            {isArchived && <Badge variant="secondary">{t('archived')}</Badge>}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>

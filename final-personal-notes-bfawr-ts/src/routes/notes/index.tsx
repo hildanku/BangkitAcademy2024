@@ -4,52 +4,18 @@ import { useAuth } from '../../hooks/use-auth'
 import { getActiveNotes, getArchivedNotes, deleteNote, archiveNote, unarchiveNote } from '../../lib/network'
 import { ProtectedRoute } from '../../components/protected-route'
 import { Button } from '../../components/ui/button'
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '../../components/ui/card'
-import { Badge } from '../../components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs'
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '../../components/ui/alert-dialog'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '../../components/ui/dropdown-menu'
 import { Alert, AlertDescription } from '../../components/ui/alert'
 import {
     Plus,
-    Search,
-    MoreVertical,
-    Archive,
-    ArchiveRestore,
-    Trash2,
-    User,
-    LogOut,
     AlertCircle,
-    Loader2,
-    Eye
 } from 'lucide-react'
-import { Input } from '../../components/ui/input'
 import { formatDate } from '../../lib/utils'
 import { NotesList } from '../../components/notes/note-list'
 import { Search as SearchComponent } from '../../components/search'
 import { Header } from '../../components/header'
 import { Loading } from '../../components/loading'
+import { useLanguage } from '../../hooks/use-language'
 
 interface Note {
     id: string
@@ -80,6 +46,7 @@ function NotesContent() {
     const [searchTerm, setSearchTerm] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
+    const { t } = useLanguage()
 
     useEffect(() => {
         loadNotes()
@@ -166,6 +133,7 @@ function NotesContent() {
         )
     }
 
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <Header userName={user?.name} onLogout={handleLogout} />
@@ -175,7 +143,7 @@ function NotesContent() {
                         <Button asChild>
                             <Link to="/notes/new">
                                 <Plus className="h-4 w-4 mr-2" />
-                                Tambah Catatan
+                                {t('create_note_button')}
                             </Link>
                         </Button>
                     </div>
@@ -193,10 +161,10 @@ function NotesContent() {
                 <Tabs defaultValue="active" className="w-full">
                     <TabsList className="grid w-full grid-cols-2 max-w-md">
                         <TabsTrigger value="active">
-                            Aktif ({filterNotes(activeNotes).length})
+                            {t('active')} ({filterNotes(activeNotes).length})
                         </TabsTrigger>
                         <TabsTrigger value="archived">
-                            Arsip ({filterNotes(archivedNotes).length})
+                            {t('archive')} ({filterNotes(archivedNotes).length})
                         </TabsTrigger>
                     </TabsList>
 
@@ -225,4 +193,5 @@ function NotesContent() {
             </div>
         </div>
     )
+
 }

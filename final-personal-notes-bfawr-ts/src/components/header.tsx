@@ -1,7 +1,8 @@
-import { Button } from "../components/ui/button"
-import { User, LogOut, FileText } from "lucide-react"
-import { ThemeToggle } from "./theme-toggle"
-import { LanguageToggle } from "./language-toggle"
+import { Button } from '../components/ui/button'
+import { User, LogOut, FileText } from 'lucide-react'
+import { ThemeToggle } from './theme-toggle'
+import { LanguageToggle } from './language-toggle'
+import { useLanguage } from '../hooks/use-language'
 
 interface HeaderProps {
     userName?: string
@@ -9,6 +10,9 @@ interface HeaderProps {
 }
 
 export function Header({ userName, onLogout }: HeaderProps) {
+
+    const { t } = useLanguage()
+
     return (
         <header className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 border-b border-blue-100 dark:border-gray-700 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,12 +41,10 @@ export function Header({ userName, onLogout }: HeaderProps) {
                                     {userName || 'User'}
                                 </span>
                                 <span className="text-xs text-gray-500 dark:text-gray-400">
-                                    Online
+                                    {t('online')}
                                 </span>
                             </div>
                         </div>
-
-                        {/* Mobile User Icon */}
                         <div className="sm:hidden flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full">
                             <User className="h-4 w-4 text-white" />
                         </div>

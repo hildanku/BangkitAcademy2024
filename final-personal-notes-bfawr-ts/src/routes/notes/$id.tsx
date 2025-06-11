@@ -36,14 +36,13 @@ import {
     Archive,
     ArchiveRestore,
     Trash2,
-    User,
-    LogOut,
     AlertCircle,
     Loader2
 } from 'lucide-react'
 import { formatDate } from '../../lib/utils'
 import { Header } from '../../components/header'
 import { Loading } from '../../components/loading'
+import { useLanguage } from '../../hooks/use-language'
 
 interface Note {
     id: string
@@ -74,6 +73,7 @@ function NoteDetailContent() {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
     const [actionLoading, setActionLoading] = useState(false)
+    const { t } = useLanguage()
 
     useEffect(() => {
         loadNote()
@@ -194,23 +194,15 @@ function NoteDetailContent() {
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <Header userName={user?.name} onLogout={handleLogout} />
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Navigation & Actions */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                     <Button variant="outline" asChild>
                         <Link to="/notes">
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Kembali ke Daftar Catatan
+                            {t('back_to_notes')}
                         </Link>
                     </Button>
 
                     <div className="flex items-center space-x-2">
-                        {/* <Button variant="outline" asChild>
-              <Link to={`/notes/${note.id}/edit`}>
-                <Edit className="h-4 w-4 mr-2" />
-                Edit
-              </Link>
-            </Button> */}
-
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" size="sm" disabled={actionLoading}>
@@ -225,12 +217,12 @@ function NoteDetailContent() {
                                 {note.archived ? (
                                     <DropdownMenuItem onClick={handleUnarchive}>
                                         <ArchiveRestore className="h-4 w-4 mr-2" />
-                                        Batalkan Arsip
+                                        {t('cancel_dropdown_button')}
                                     </DropdownMenuItem>
                                 ) : (
                                     <DropdownMenuItem onClick={handleArchive}>
                                         <Archive className="h-4 w-4 mr-2" />
-                                        Arsipkan
+                                        {t('archive_dropdown_button')}
                                     </DropdownMenuItem>
                                 )}
 
@@ -241,24 +233,23 @@ function NoteDetailContent() {
                                             onSelect={(e) => e.preventDefault()}
                                         >
                                             <Trash2 className="h-4 w-4 mr-2" />
-                                            Hapus
+                                            {t('delete_dropdown_button')}
                                         </DropdownMenuItem>
                                     </AlertDialogTrigger>
                                     <AlertDialogContent>
                                         <AlertDialogHeader>
-                                            <AlertDialogTitle>Hapus Catatan</AlertDialogTitle>
+                                            <AlertDialogTitle>{t('delete_note_title')}</AlertDialogTitle>
                                             <AlertDialogDescription>
-                                                Apakah Anda yakin ingin menghapus catatan "{note.title}"?
-                                                Tindakan ini tidak dapat dibatalkan.
+                                                {t('delete_note_description').replace('{title}', note.title)}
                                             </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
-                                            <AlertDialogCancel>Batal</AlertDialogCancel>
+                                            <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
                                             <AlertDialogAction
                                                 onClick={handleDelete}
                                                 className="bg-red-600 hover:bg-red-700"
                                             >
-                                                Hapus
+                                                {t('delete')}
                                             </AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
@@ -268,7 +259,6 @@ function NoteDetailContent() {
                     </div>
                 </div>
 
-                {/* Error Alert */}
                 {error && (
                     <Alert variant="destructive" className="mb-6">
                         <AlertCircle className="h-4 w-4" />
@@ -276,15 +266,14 @@ function NoteDetailContent() {
                     </Alert>
                 )}
 
-                {/* Note Detail */}
                 <Card>
                     <CardHeader>
                         <div className="flex items-start justify-between">
                             <div className="flex-1">
                                 <CardTitle className="text-2xl mb-2">{note.title}</CardTitle>
                                 <CardDescription className="flex items-center gap-4">
-                                    <span>Dibuat pada {formatDate(note.createdAt)}</span>
-                                    {note.archived && <Badge variant="secondary">Arsip</Badge>}
+                                    <span>{t('created_at')} {formatDate(note.createdAt)}</span>
+                                    {note.archived && <Badge variant="secondary">{t('archived')}</Badge>}
                                 </CardDescription>
                             </div>
                         </div>
@@ -301,7 +290,7 @@ function NoteDetailContent() {
 
                 <Card className="mt-6">
                     <CardHeader>
-                        <CardTitle className="text-lg">Informasi Catatan</CardTitle>
+                        <CardTitle className="text-lg">{t('note_information')}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -310,15 +299,15 @@ function NoteDetailContent() {
                                 <p className="font-mono text-xs mt-1 break-all">{note.id}</p>
                             </div>
                             <div>
-                                <span className="font-medium text-gray-500 dark:text-gray-400">Pemilik:</span>
+                                <span className="font-medium text-gray-500 dark:text-gray-400">{t('note_owner')}:</span>
                                 <p className="mt-1">{note.owner}</p>
                             </div>
                             <div>
-                                <span className="font-medium text-gray-500 dark:text-gray-400">Status:</span>
-                                <p className="mt-1">{note.archived ? 'Diarsipkan' : 'Aktif'}</p>
+                                <span className="font-medium text-gray-500 dark:text-gray-400">{t('archived')}:</span>
+                                <p className="mt-1">{note.archived ? t('archived') : t('active')}</p>
                             </div>
                             <div>
-                                <span className="font-medium text-gray-500 dark:text-gray-400">Tanggal Dibuat:</span>
+                                <span className="font-medium text-gray-500 dark:text-gray-400">{t('date_created')}:</span>
                                 <p className="mt-1">{formatDate(note.createdAt)}</p>
                             </div>
                         </div>
@@ -326,5 +315,5 @@ function NoteDetailContent() {
                 </Card>
             </div>
         </div>
-    )
+    );
 }
