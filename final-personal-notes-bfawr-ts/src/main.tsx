@@ -6,6 +6,7 @@ import { routeTree } from './routeTree.gen'
 import { AuthProvider } from './contexts/auth-context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider } from './contexts/theme-context'
+import { LanguageProvider } from './contexts/language-context'
 
 const router = createRouter({ routeTree })
 
@@ -24,9 +25,11 @@ if (!rootElement.innerHTML) {
         <StrictMode>
             <QueryClientProvider client={queryClient}>
                 <ThemeProvider>
-                    <AuthProvider>
-                        <RouterProvider router={router} />
-                    </AuthProvider>
+                    <LanguageProvider>
+                        <AuthProvider>
+                            <RouterProvider router={router} />
+                        </AuthProvider>
+                    </LanguageProvider>
                 </ThemeProvider>
             </QueryClientProvider>
         </StrictMode>,

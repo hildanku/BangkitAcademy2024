@@ -1,6 +1,7 @@
 import { Button } from "../components/ui/button"
 import { User, LogOut, FileText } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
+import { LanguageToggle } from "./language-toggle"
 
 interface HeaderProps {
     userName?: string
@@ -45,9 +46,8 @@ export function Header({ userName, onLogout }: HeaderProps) {
                         <div className="sm:hidden flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full">
                             <User className="h-4 w-4 text-white" />
                         </div>
-
                         <ThemeToggle />
-
+                        <LanguageToggle />
                         <Button
                             variant="outline"
                             size="sm"
