@@ -1,4 +1,5 @@
 const autoBind = require('auto-bind')
+const extractSongData = require('../../utils/lib')
 
 class SongsHandler {
     constructor(service, validator) {
@@ -21,12 +22,8 @@ class SongsHandler {
             return response
         }
 
-        const {
-            title, year, genre, performer, duration, albumId,
-        } = request.payload
-        const songId = await this._service.addSong({
-            title, year, genre, performer, duration, albumId,
-        })
+        const songData = extractSongData(request.payload)
+        const songId = await this._service.addSong(songData)
 
         const response = h.response({
             status: 'success',
@@ -53,12 +50,12 @@ class SongsHandler {
         }
 
         const songs = await this._service.getSongs()
-        const sanitizedSongs = songs.map(({ id, title, performer }) => ({ id, title, performer }))
+        const mappingSongs = songs.map(({ id, title, performer }) => ({ id, title, performer }))
 
         return {
             status: 'success',
             data: {
-                songs: sanitizedSongs,
+                songs: mappingSongs,
             },
         }
     }
@@ -97,13 +94,9 @@ class SongsHandler {
             return response
         }
 
-        const {
-            title, year, performer, genre, duration, albumId,
-        } = request.payload
+        const songData = extractSongData(request.payload)
 
-        const songId = await this._service.updateSongById(id, {
-            title, year, performer, genre, duration, albumId,
-        })
+        const songId = await this._service.updateSongById(id, songData)
 
         if (!songId) {
             const response = h.response({
