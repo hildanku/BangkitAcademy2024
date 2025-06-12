@@ -48,6 +48,19 @@ class AlbumsHandler {
             message: 'Album berhasil dihapus',
         }
     }
+
+    async getAlbumById(request) {
+        const { id } = request.params
+        const album = await this._service.getAlbumById(id)
+        const songs = await this._service.getSongList(id)
+        album.songs = songs
+        return {
+            status: 'success',
+            data: {
+                album,
+            },
+        }
+    }
 }
 
 module.exports = AlbumsHandler

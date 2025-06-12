@@ -39,6 +39,7 @@ class AlbumsService {
         return mapDBToModelAlbum(result.rows[0])
     }
 
+    // kriteria 1 opsional
     async getSongList(albumId) {
         const query = {
             text: 'SELECT * FROM songs WHERE album_id = $1',
@@ -80,4 +81,4 @@ class AlbumsService {
     }
 }
 
-module.exports = AlbumsService;
+module.exports = AlbumsService
