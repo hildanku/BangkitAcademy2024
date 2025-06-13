@@ -2,58 +2,58 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>.:Kirmanzzzz - Portfolio:.</title>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.:Kirmanzzzz - Portfolio:.</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 </head>
 
 <body>
-  <header>
-    <h1>./kirmanzzzz.<span style="color: red;">sh</span></h1>
-    <h2>Backend and DevOps Enthusiast</h2>
-    <nav>
-      <a href="#" id="home_button">Home</a>
-      <a href="#" id="contact_button">Contact</a>
-    </nav>
-  </header>
+    <header>
+        <h1>./kirmanzzzz.<span style="color: red;">sh</span></h1>
+        <h2>Backend and DevOps Enthusiast</h2>
+        <nav>
+            <a href="#" id="home_button">Home</a>
+            <a href="#" id="contact_button">Contact</a>
+        </nav>
+    </header>
 
-  <main>
-    <aside>
-      <img src="assets/img/profile_img.png" alt="kirmanzzzz">
-    </aside>
-    
-    <article>
-      <div id="about_me_container"></div>
-      <div id="output"></div>
-    </article>
+    <main>
+        <aside>
+            <img src="assets/img/profile_img.png" alt="kirmanzzzz">
+        </aside>
 
-    <aside id="contact_form">
-      <div id=>
-        <h2>Contact Me</h2>
-        <form id="form_contact">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="message" placeholder="Your Message" required></textarea>
-            <button type="submit">Send Message</button>
-        </form>
-    </div>
-    </aside>
-    
-  </main>
+        <article>
+            <div id="about_me_container"></div>
+            <div id="output"></div>
+        </article>
 
-  <footer>
-    <p>&copy; 2024 by Hildan K. Utomo | Dicoding x Bangkit Academy 2024</p>
-  </footer>
+        <aside id="contact_form">
+            <div id=>
+                <h2>Contact Me</h2>
+                <form id="form_contact">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </aside>
 
-  <script>
-  var typed = new Typed('#about_me_container', {
-    strings: ["./about_me.sh"],
-    typeSpeed: 50,
-    showCursor: false,
+    </main>
+
+    <footer>
+        <p>&copy; 2024 by Hildan K. Utomo | Dicoding x Bangkit Academy 2024</p>
+    </footer>
+
+    <script>
+        var typed = new Typed('#about_me_container', {
+            strings: ["./about_me.sh"],
+            typeSpeed: 50,
+            showCursor: false,
     onComplete: function() {
-      document.getElementById('output').innerHTML = `
+                document.getElementById('output').innerHTML = `
         <p>
          a junior backend developer and third-year Computer Science student.
         Through my academic journey and personal projects, I’ve gained a growing interest in backend programming, especially with PHP and Javascript.
@@ -64,8 +64,8 @@
           By combining backend development, security awareness, and a basic understanding of DevOps, I aim to contribute to projects that require both technical efficiency and security considerations.
         </p>
       `;
-    }
-  });
+            }
+        });
   document.getElementById('contact_button').addEventListener('click', function(event) {
             event.preventDefault();
             var contactForm = document.getElementById('contact_form');
@@ -78,11 +78,11 @@
         });
         document.getElementById('home_button').addEventListener('click', function(event) {
             event.preventDefault();
-            
+
             var contactForm = document.getElementById('contact_form');
             contactForm.style.display = 'none';
         });
-  </script>
+    </script>
 </body>
 
 </html>
