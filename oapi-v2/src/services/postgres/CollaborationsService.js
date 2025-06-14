@@ -1,6 +1,7 @@
 const { Pool } = require('pg')
 const { nanoid } = require('nanoid')
 const InvariantError = require('../../exceptions/InvariantError')
+const NotFoundError = require('../../exceptions/NotFoundError')
 
 class CollaborationsService {
     constructor() {
@@ -58,7 +59,7 @@ class CollaborationsService {
         const result = await this._pool.query(query)
 
         if (!result.rows.length) {
-            return []
+            throw new NotFoundError('Tidak ada aktivitas kolaborasi ditemukan')
         }
 
         return result.rows.map((row) => ({
