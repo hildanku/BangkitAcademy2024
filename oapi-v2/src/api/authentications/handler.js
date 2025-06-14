@@ -10,7 +10,7 @@ class AuthenticationsHandler {
     autoBind(this)
   }
 
-  async storeAuthentication(request, h) {
+  async postAuthenticationHandler(request, h) {
     this._validator.validatePostAuthenticationPayload(request.payload)
 
     const { username, password } = request.payload
