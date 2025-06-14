@@ -16,20 +16,17 @@ exports.up = (pgm) => {
         },
         playlist_id: {
             type: 'VARCHAR(50)',
-            references: 'playlists',
+            references: 'playlists(id)',
             onDelete: 'CASCADE',
-            nullable: true,
+            notNull: true,
         },
         song_id: {
             type: 'VARCHAR(50)',
-            references: 'songs',
+            references: 'songs(id)',
             onDelete: 'CASCADE',
-            nullable: true,
+            notNull: true,
         },
     })
-
-    pgm.addConstraint('playlists_songs', 'fk_playlists_songs.playlist_id_playlists.id', 'FOREIGN KEY(playlist_id) REFERENCES playlists(id) ON DELETE CASCADE')
-    pgm.addConstraint('playlists_songs', 'fk_playlists_songs.song_id_songs.id', 'FOREIGN KEY(song_id) REFERENCES songs(id) ON DELETE CASCADE')
 }
 
 /**
@@ -38,7 +35,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-    pgm.dropConstraint('playlists_songs', 'fk_playlists_songs.playlist_id_playlists.id')
-    pgm.dropConstraint('playlists_songs', 'fk_playlists_songs.song_id_songs.id')
     pgm.dropTable('playlists_songs')
 }

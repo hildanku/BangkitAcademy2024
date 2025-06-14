@@ -22,6 +22,7 @@ exports.up = (pgm) => {
         user_id: {
             type: 'VARCHAR(50)',
             notNull: true,
+            references: 'users(id)',
         },
     })
 }

@@ -7,7 +7,7 @@ class AuthenticationsHandler {
     this._tokenManager = tokenManager
     this._validator = validator
 
-    autoBind(this)
+	  autoBind(this)
   }
 
   async postAuthenticationHandler(request, h) {

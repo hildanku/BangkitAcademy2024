@@ -51,7 +51,7 @@ class CollaborationsService {
 
     async getCollaborationActivities(playlistId) {
         const query = {
-            text: 'SELECT * FROM playlist_activities WHERE playlist_id = $1',
+            text: 'SELECT * FROM playlist_song_activities WHERE playlist_id = $1',
             values: [playlistId],
         }
 
@@ -73,7 +73,7 @@ class CollaborationsService {
         const id = nanoid(16)
 
         const query = {
-            text: 'INSERT INTO playlist_activities (id, playlist_id, song_id, user_id, action, time) VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING id',
+            text: 'INSERT INTO playlist_song_activities (id, playlist_id, song_id, user_id, action, time) VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING id',
             values: [id, playlistId, songId, userId, action],
         }
 
@@ -88,7 +88,7 @@ class CollaborationsService {
 
     async deleteCollaborationActivity(playlistId, songId, userId, action) {
         const query = {
-            text: 'DELETE FROM playlist_activities WHERE playlist_id = $1 AND song_id = $2 AND user_id = $3 AND action = $4 RETURNING id',
+            text: 'DELETE FROM playlist_song_activities WHERE playlist_id = $1 AND song_id = $2 AND user_id = $3 AND action = $4 RETURNING id',
             values: [playlistId, songId, userId, action],
         }
 
