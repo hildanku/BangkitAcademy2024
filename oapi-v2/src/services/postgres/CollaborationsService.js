@@ -52,8 +52,15 @@ class CollaborationsService {
 
     async getCollaborationActivities(playlistId) {
         const query = {
-            text: 'SELECT * FROM playlist_song_activities WHERE playlist_id = $1',
-            values: [playlistId],
+          text: `
+            SELECT u.username, s.title, a.action, a.time
+            FROM playlist_song_activities a
+            JOIN users u ON a.user_id = u.id
+            JOIN songs s ON a.song_id = s.id
+            WHERE a.playlist_id = $1
+            ORDER BY a.time ASC
+          `,
+          values: [playlistId],
         }
 
         const result = await this._pool.query(query)
@@ -68,7 +75,7 @@ class CollaborationsService {
             action: row.action,
             time: row.time,
         }))
-    }
+      }
 
     async addCollaborationActivity(playlistId, songId, userId, action) {
         const id = nanoid(16)

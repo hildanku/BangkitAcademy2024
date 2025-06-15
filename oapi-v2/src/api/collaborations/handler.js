@@ -19,7 +19,7 @@ class CollaborationsHandler {
             playlistId,
             userId,
         )
-
+        console.log(`Collaboration added: ${collaborationId}`)
         await this._collaborationsService.addCollaborationActivity(
             playlistId,
             userId,
@@ -61,6 +61,9 @@ class CollaborationsHandler {
 
     async getCollaborationActivitiesHandler(request, h) {
         const { id: playlistId } = request.params
+        const { id: credentialId } = request.auth.credentials
+
+        await this._playlistService.verifyPlaylistAccess(playlistId, credentialId)
 
         const activities = await this._collaborationsService.getCollaborationActivities(playlistId)
 

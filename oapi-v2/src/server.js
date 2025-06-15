@@ -121,6 +121,8 @@ const init = async () => {
         const { response } = request
         console.log(response)
         if (response instanceof Error) {
+            console.log('Jenis error:', response.name);
+            console.log('Apakah ClientError?', response instanceof ClientError);
             if (response instanceof ClientError) {
                 const newResponse = h.response({
                     status: 'fail',
