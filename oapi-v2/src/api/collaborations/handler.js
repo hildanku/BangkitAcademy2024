@@ -14,12 +14,12 @@ class CollaborationsHandler {
         const { id: username } = request.auth.credentials
         const { playlistId, userId } = request.payload
 
-        await this._playlistService.verifyPlaylistOwner(playlistId, username)
+        await this._playlistService.verifyPlaylistAccess(playlistId, username)
         const collaborationId = await this._collaborationsService.addCollaboration(
             playlistId,
             userId,
+
         )
-        console.log(`Collaboration added: ${collaborationId}`)
         await this._collaborationsService.addCollaborationActivity(
             playlistId,
             userId,

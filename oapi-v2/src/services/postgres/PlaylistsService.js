@@ -29,22 +29,45 @@ class PlaylistsService {
         return result.rows[0].id
     }
 
-    async getPlaylists(owner) {
+    // async getPlaylists(owner) {
+    //     const query = {
+    //         text: `SELECT playlists.id, playlists.name, users.username
+    //         FROM playlists
+    //         LEFT JOIN users ON playlists.owner = users.id
+    //         LEFT JOIN collaborations ON collaborations.playlist_id = playlists.id
+    //         WHERE playlists.owner = $1 OR collaborations.user_id = $1
+    //         GROUP BY playlists.id, users.username
+    //         `, values: [owner]
+    //     };
+
+    //     const result = await this._pool.query(query)
+    //     // const mapResult = result.rows.map(mapDBToModelPlaylists)
+
+    //     return result.rows
+    // }
+
+    async getPlaylists(userId) {
         const query = {
-            text: `SELECT playlists.id, playlists.name, users.username
-            FROM playlists
-            LEFT JOIN users ON playlists.owner = users.id
-            LEFT JOIN collaborations ON collaborations.playlist_id = playlists.id
-            WHERE playlists.owner = $1 OR collaborations.user_id = $1
-            GROUP BY playlists.id, users.username
-            `, values: [owner]
-        };
-
+          text: `
+            SELECT p.id, p.name, u.username
+            FROM playlists p
+            JOIN users u ON p.owner = u.id
+            WHERE p.owner = $1
+      
+            UNION
+      
+            SELECT p.id, p.name, u.username
+            FROM collaborations c
+            JOIN playlists p ON c.playlist_id = p.id
+            JOIN users u ON p.owner = u.id
+            WHERE c.user_id = $1
+          `,
+          values: [userId],
+        }
+      
         const result = await this._pool.query(query)
-        // const mapResult = result.rows.map(mapDBToModelPlaylists)
-
         return result.rows
-    }
+      }
 
     async getPlaylistById(id) {
         const query = {
@@ -135,7 +158,7 @@ class PlaylistsService {
 
         const result = await this._pool.query(query)
 
-        if (result.rows.length === 0) {
+        if (!result.rows.length) {
             throw new NotFoundError('Playlist not found')
         }
 
